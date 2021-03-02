@@ -2,8 +2,8 @@
 
 ```dart
 
-FlareLoading(
-    name: 'loading.flr',
+RiveLoading(
+    name: 'loading.riv',
     loopAnimation: 'Loading',
     endAnimation: 'Complete',
     isLoading: _isLoading,//boolean based loading
@@ -15,8 +15,8 @@ FlareLoading(
 
 ```dart
 
-FlareLoading(
-    name: 'loading.flr',
+RiveLoading(
+    name: 'loading.riv',
     loopAnimation: 'Loading',
     endAnimation: 'Complete',
     until: () => Future.delayed(Duration(seconds: 5)),//Future based loading
