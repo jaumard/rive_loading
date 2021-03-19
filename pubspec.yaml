@@ -1,6 +1,6 @@
 name: rive_loading
 description: Loading widget based on a custom Rive animation, allow you to create beautiful custom loading widgets or dialogs
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/jaumard/rive_loading
 
 environment:

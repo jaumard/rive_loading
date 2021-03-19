@@ -134,11 +134,13 @@ class _RiveLoadingState extends State<RiveLoading> {
 
   _finished() {
     if (!_controller.isLoading) {
-      if (_isSuccessful) {
-        widget.onSuccess(_data);
-      } else {
-        widget.onError(_error, _stack);
-      }
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        if (_isSuccessful) {
+          widget.onSuccess(_data);
+        } else {
+          widget.onError(_error, _stack);
+        }
+      });
     }
   }
 }
