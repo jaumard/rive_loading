@@ -1,3 +1,7 @@
+## [0.0.4] - 06/04/2021.
+
+* fix rive breaking change
+
 ## [0.0.3] - 19/03/2021.
 
 * fix issues on callback trigger time
