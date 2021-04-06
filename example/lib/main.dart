@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     },
                   ),
                 ),
-                RaisedButton(
+                ElevatedButton(
                   child: Text('Toogle loading'),
                   onPressed: () => setState(
                     () {
