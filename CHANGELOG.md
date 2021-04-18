@@ -1,3 +1,7 @@
+## [0.1.0] - 18/04/2021.
+
+* migrate to null safety
+
 ## [0.0.4] - 06/04/2021.
 
 * fix rive breaking change

@@ -1,14 +1,15 @@
 name: rive_loading
 description: Loading widget based on a custom Rive animation, allow you to create beautiful custom loading widgets or dialogs
-version: 0.0.4
+version: 0.1.0
 homepage: https://github.com/jaumard/rive_loading
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
   flutter: ">=1.7.8"
 
 dependencies:
   rive: ">=0.7.0 <1.0.0"
+  collection: ^1.15.0
   flutter:
     sdk: flutter
 

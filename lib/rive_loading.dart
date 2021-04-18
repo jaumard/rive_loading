@@ -1,5 +1,6 @@
 library rive_loading;
 
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rive/rive.dart';
@@ -9,20 +10,20 @@ class RiveLoading extends StatefulWidget {
   final Function(dynamic data) onSuccess;
   final Function(dynamic error, dynamic stacktrace) onError;
   final BoxFit fit;
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final Alignment alignment;
-  final Future Function() until;
-  final String loopAnimation;
-  final String endAnimation;
-  final String startAnimation;
-  final bool isLoading;
+  final Future Function()? until;
+  final String? loopAnimation;
+  final String? endAnimation;
+  final String? startAnimation;
+  final bool? isLoading;
 
   const RiveLoading({
-    Key key,
-    @required this.name,
-    @required this.onSuccess,
-    @required this.onError,
+    Key? key,
+    required this.name,
+    required this.onSuccess,
+    required this.onError,
     this.fit = BoxFit.contain,
     this.width,
     this.height,
@@ -39,8 +40,8 @@ class RiveLoading extends StatefulWidget {
 }
 
 class _RiveLoadingState extends State<RiveLoading> {
-  _LoadingRiveController _controller;
-  Artboard _riveArtboard;
+  late _LoadingRiveController _controller;
+  Artboard? _riveArtboard;
   dynamic _data; //save data from the future for the callback
   dynamic _error; //save error from the future for the callback
   dynamic _stack; //save stack from the future for the callback
@@ -101,7 +102,7 @@ class _RiveLoadingState extends State<RiveLoading> {
           child: _riveArtboard == null
               ? Container()
               : Rive(
-                  artboard: _riveArtboard,
+                  artboard: _riveArtboard!,
                   fit: widget.fit,
                 ),
         ),
@@ -114,7 +115,7 @@ class _RiveLoadingState extends State<RiveLoading> {
       _isSuccessful = true; //based on boolean field we're always sucessful
     } else {
       try {
-        _data = await widget.until();
+        _data = await widget.until!();
         _isSuccessful = true;
       } catch (err, stack) {
         _error = err;
@@ -131,8 +132,8 @@ class _RiveLoadingState extends State<RiveLoading> {
   }
 
   _finished() {
-    if (!_controller.isLoading) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    if (!_controller.isLoading!) {
+      WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
         if (_isSuccessful) {
           widget.onSuccess(_data);
         } else {
@@ -144,17 +145,17 @@ class _RiveLoadingState extends State<RiveLoading> {
 }
 
 class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
-  final String _startAnimation, _loopAnimation, _endAnimation;
+  final String? _startAnimation, _loopAnimation, _endAnimation;
   final VoidCallback onFinished;
   bool isIntroFinished = false;
   bool _isLastLoadingFinished = false;
-  bool _isLoading = true;
+  bool? _isLoading = true;
 
-  bool get isLoading => _isLoading;
+  bool? get isLoading => _isLoading;
 
-  set isLoading(bool value) {
+  set isLoading(bool? value) {
     _isLoading = value;
-    if (_isLoading) {
+    if (_isLoading!) {
       _isLastLoadingFinished = false;
       isCompleted = false;
       isActive = true;
@@ -162,7 +163,7 @@ class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
   }
 
   bool isCompleted = false;
-  LinearAnimationInstance _start, _loading, _complete;
+  LinearAnimationInstance? _start, _loading, _complete;
 
   _LoadingRiveController(this._startAnimation, this._loopAnimation, this._endAnimation, this.onFinished);
 
@@ -175,19 +176,19 @@ class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
   @override
   bool init(RuntimeArtboard artboard) {
     if (_startAnimation != null) {
-      final start = artboard.animations.firstWhere((a) => a.name == _startAnimation, orElse: () => null);
+      final start = artboard.animations.firstWhereOrNull((a) => a.name == _startAnimation);
       if (start != null) {
         _start = LinearAnimationInstance(start as LinearAnimation);
       }
     }
     if (_loopAnimation != null) {
-      final loading = artboard.animations.firstWhere((a) => a.name == _loopAnimation, orElse: () => null);
+      final loading = artboard.animations.firstWhereOrNull((a) => a.name == _loopAnimation);
       if (loading != null) {
         _loading = LinearAnimationInstance(loading as LinearAnimation);
       }
     }
     if (_endAnimation != null) {
-      final complete = artboard.animations.firstWhere((a) => a.name == _endAnimation, orElse: () => null);
+      final complete = artboard.animations.firstWhereOrNull((a) => a.name == _endAnimation);
       if (complete != null) {
         _complete = LinearAnimationInstance(complete as LinearAnimation);
       }
@@ -199,9 +200,9 @@ class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
   @override
   void apply(RuntimeArtboard artboard, double elapsed) {
     if (!isIntroFinished && _start != null) {
-      _start.animation.loop = Loop.oneShot;
-      _start.animation.apply(_start.time, coreContext: artboard, mix: 1);
-      if (_start.advance(elapsed)) {
+      _start!.animation.loop = Loop.oneShot;
+      _start!.animation.apply(_start!.time, coreContext: artboard, mix: 1);
+      if (_start!.advance(elapsed)) {
         // animation not finished, let's continue
         return;
       } else {
@@ -219,16 +220,16 @@ class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
       }
     }
 
-    if (isLoading && _loading != null) {
-      _loading.animation.loop = Loop.loop;
+    if (isLoading! && _loading != null) {
+      _loading!.animation.loop = Loop.loop;
       // Still loading...
-      _loading.animation.apply(_loading.time, coreContext: artboard, mix: 1);
-      _loading.advance(elapsed);
+      _loading!.animation.apply(_loading!.time, coreContext: artboard, mix: 1);
+      _loading!.advance(elapsed);
     } else if (_loading != null && !_isLastLoadingFinished) {
-      _loading.animation.loop = Loop.oneShot;
+      _loading!.animation.loop = Loop.oneShot;
       // Complete, but need to finish loading animation...
-      _loading.animation.apply(_loading.time, coreContext: artboard, mix: 1);
-      _isLastLoadingFinished = !_loading.advance(elapsed);
+      _loading!.animation.apply(_loading!.time, coreContext: artboard, mix: 1);
+      _isLastLoadingFinished = !_loading!.advance(elapsed);
       if (_isLastLoadingFinished) {
         //reset animation in case it's same one as the others before
         _complete?.reset();
@@ -239,10 +240,10 @@ class _LoadingRiveController extends RiveAnimationController<RuntimeArtboard> {
       isActive = false;
       return; // false;
     } else if (!isCompleted) {
-      _complete.animation.loop = Loop.oneShot;
+      _complete!.animation.loop = Loop.oneShot;
       // Chain completion animation
-      _complete.animation.apply(_complete.time, coreContext: artboard, mix: 1);
-      if (!_complete.advance(elapsed)) {
+      _complete!.animation.apply(_complete!.time, coreContext: artboard, mix: 1);
+      if (!_complete!.advance(elapsed)) {
         // Notify we're done and stop advancing.
         isCompleted = true;
         isLoading = false;

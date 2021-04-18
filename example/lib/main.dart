@@ -32,6 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey,
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -41,9 +42,8 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           RiveLoading(
             name: 'loading.riv',
-            loopAnimation: 'snowman',
-            startAnimation: 'snowman',
-            //endAnimation: 'snowman',
+            loopAnimation: 'loading',
+            endAnimation: 'success',
             width: 200,
             height: 200,
             fit: BoxFit.fill,
@@ -61,8 +61,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 Expanded(
                   child: RiveLoading(
                     name: 'loading.riv',
-                    loopAnimation: 'snowman',
-                    endAnimation: 'Complete',
+                    loopAnimation: 'loading',
+                    endAnimation: 'success',
                     isLoading: _isLoading,
                     onSuccess: (_) {
                       print('Finished');
