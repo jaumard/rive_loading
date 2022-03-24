@@ -1,3 +1,7 @@
+## [0.1.1] - 24/03/2022.
+
+* fix problem by processing callback too soon
+
 ## [0.1.0] - 18/04/2021.
 
 * migrate to null safety

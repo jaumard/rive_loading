@@ -49,7 +49,6 @@ class _RiveLoadingState extends State<RiveLoading> {
 
   @override
   void initState() {
-    _processCallback();
     super.initState();
     // Load the animation file from the bundle, note that you could also
     // download this. The RiveFile just expects a list of bytes.
@@ -77,6 +76,7 @@ class _RiveLoadingState extends State<RiveLoading> {
         );
         artboard.addController(_controller);
         setState(() => _riveArtboard = artboard);
+        _processCallback();
       },
     );
   }
