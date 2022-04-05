@@ -1,3 +1,7 @@
+## [0.1.2] - 04/04/2022.
+
+* fix problem when animation finishes but callback not called
+
 ## [0.1.1] - 24/03/2022.
 
 * fix problem by processing callback too soon

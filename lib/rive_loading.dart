@@ -66,13 +66,7 @@ class _RiveLoadingState extends State<RiveLoading> {
           widget.startAnimation,
           widget.loopAnimation,
           widget.endAnimation,
-          () {
-            if (!_controller.hasEndAnimation && !_controller.hasLoopAnimation && _isSuccessful) {
-              _finished();
-            } else if (_isSuccessful) {
-              _finished();
-            }
-          },
+          _finished,
         );
         artboard.addController(_controller);
         setState(() => _riveArtboard = artboard);
