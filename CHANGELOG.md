@@ -1,3 +1,7 @@
+## [0.1.3] - 04/04/2022.
+
+* update for flutter 3.0.0
+
 ## [0.1.2] - 04/04/2022.
 
 * fix problem when animation finishes but callback not called
